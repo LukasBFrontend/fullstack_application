@@ -7,10 +7,10 @@ function App() {
   useEffect(() => {
     async function fetchData() {
       const response = await fetch('/api');
-      const data: { hello: string} = await response.json();
+      const data: { message: string} = await response.json();
 
 
-      alert('Hello ' + data.hello + '!');
+      alert(data.message);
     }
 
     fetchData();
