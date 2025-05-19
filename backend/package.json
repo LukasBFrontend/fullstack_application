@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-frontend": "npm run --prefix ../frontend build && powershell -Command \"Remove-Item -Recurse -Force dist; Copy-Item -Recurse ../frontend/dist ./; Remove-Item -Recurse -Force ../frontend/dist\""
+    "build-frontend": "npm run --prefix ../frontend build && npx shx rm -rf dist && npx shx mv ../frontend/dist ./"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +16,7 @@
   },
   "devDependencies": {
     "mv-cli": "^0.0.1",
-    "rimraf": "^6.0.1"
+    "rimraf": "^6.0.1",
+    "shx": "^0.4.0"
   }
 }
