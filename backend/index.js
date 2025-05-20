@@ -22,11 +22,24 @@ const PORT = 3000;
 app.use(express.json());
 
 app.get('/api', async (req, res) => {
-  const messages = await database.all('SELECT message FROM test');
+  const messages = await database.all('SELECT * FROM messages');
 
   console.log(messages);
-  res.send({message: messages[0].message});
-})
+  res.send({message: messages[0].text});
+});
+
+app.get('/api/:post_id', async (req, res) => {
+  const post = await database.all('SELECT * FROM posts WHERE id=?', [
+    req.params.post_id
+  ]);
+
+  const user = await database.all('SELECT * FROM users WHERE id=?', [
+    post[0].author_id
+  ])
+  console.log({...post[0], author: user[0]});
+
+  res.send({...post[0], author: user[0]});
+});
 
 app.use(express.static(path.join(path.resolve(), 'dist')));
 
