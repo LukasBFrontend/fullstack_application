@@ -55,14 +55,107 @@ module.exports = (db) => {
     res.json(user);
   });
 
-  // Send friendrequest
-  router.post('/:user_id/add_friend', validate, async (req, res) => {
+  router.get('/:user_id/friends', async (req, res) => {
+    const user = await db.get('SELECT * FROM users WHERE id = ?', [req.params.user_id]);
+    if (!user) {
+      return res.status(400).json({ message: `No user with id: ${req.params.user_id} could be found` });
+    }
 
+    const friendships = await db.get('SELECT * FROM friendships WHERE (user_id = ? OR friend_id = ?) AND status = ?', [
+      req.params.user_id,
+      req.params.user_id,
+      'accepted'
+    ]);
+
+    res.status(200).json(friendships);
+  });
+
+  router.get('/:user_id/friendship', async (req, res) => {
+    const user = await db.get('SELECT * FROM users WHERE id = ?', [req.params.user_id]);
+    if (!user) {
+      return res.status(400).json({ message: `No user with id: ${req.params.user_id} could be found` });
+    }
+
+    const friendship = await db.get('SELECT * FROM friendships WHERE user_id = ? AND friend_id = ? OR friend_id = ? AND user_id = ?', [
+      req.session.userId,
+      req.params.user_id,
+      req.session.userId,
+      req.params.user_id
+    ]);
+
+    if (!friendship){
+      res.status(400).json({ message: 'No such friendship exists'});
+      return;
+    }
+
+    res.status(200).json(friendship);
+  });
+
+  // Send friendrequest
+  router.post('/:user_id/friendship', validate, async (req, res) => {
+
+    const friendship = await db.run('INSERT INTO friendships (user_id, friend_id, status) VALUES (?, ?, ?)', [
+      req.session.userId,
+      req.params.user_id,
+      'pending'
+    ]);
+
+    res.status(200).json({ message: `Friend request sent to user with id ${req.params.user_id}`});
   });
 
   // Answer friendship request
-  router.patch('/:user_id/answer_request', validate, async (req, res) => {
+  router.patch('/:user_id/friendship', validate, async (req, res) => {
+    const { status } = req.body;
 
+    if (!status || status != 'accepted' && status != 'rejected') {
+      res.status(400).json({ message: `Bad value for key 'status': '${status}'. Must be either 'accepted' or 'rejected'`});
+      return;
+    }
+
+    const friendship = await db.run('SELECT * FROM friendships WHERE user_id = ? AND friend_id = ? OR friend_id = ? AND user_id = ?', [
+      req.session.userId,
+      req.params.user_id,
+      req.session.userId,
+      req.params.user_id
+    ]);
+
+    if (!friendship){
+      res.status(400).json({ message: 'Failed to update friendship status: no such friendship exists'});
+      return;
+    }
+
+    await db.run('UPDATE friendships SET status = ? WHERE user_id = ? AND friend_id = ? OR friend_id = ? AND user_id = ?', [
+      status,
+      req.session.userId,
+      req.params.user_id,
+      req.session.userId,
+      req.params.user_id
+    ]);
+
+    res.status(200).json({ message: `Succesfully updated friendship status to '${status}'`});
+  });
+
+  router.delete('/:user_id/friendship', validate, async (req, res) => {
+    const friendship = await db.run('SELECT * FROM friendships WHERE user_id = ? AND friend_id = ? OR friend_id = ? AND user_id = ?', [
+      req.session.userId,
+      req.params.user_id,
+      req.session.userId,
+      req.params.user_id
+    ]);
+
+    if (!friendship){
+      res.status(400).json({ message: 'Failed to delete friendship status: no such friendship exists'});
+      return;
+    }
+
+    db.run('DELETE  FROM friendships WHERE user_id = ? AND friend_id = ? OR friend_id = ? AND user_id = ?', [
+      req.session.userId,
+      req.params.user_id,
+      req.session.userId,
+      req.params.user_id
+    ]);
+
+    res.status(200).json({ message: 'Friendship succesfully deleted'});
   });
 
   return router;
