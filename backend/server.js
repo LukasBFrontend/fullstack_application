@@ -29,6 +29,7 @@ let database;
   app.use('/api/posts', require('./routes/posts')(database));
   app.use('/api/users', require('./routes/users')(database));
   app.use('/api/messages', require('./routes/messages')(database));
+  app.use('/api/notifications', require('./routes/notifications')(database));
 
   app.use(express.static(path.join(path.resolve(), 'dist')));
 

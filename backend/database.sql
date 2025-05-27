@@ -45,7 +45,7 @@ CREATE TABLE notifications (
   id INTEGER PRIMARY KEY,
   user_id INTEGER NOT NULL,
   related_user_id INTEGER NOT NULL,
-  type TEXT NOT NULL CHECK (type IN('message', 'like', 'comment')),
+  type TEXT NOT NULL CHECK (type IN('message', 'like', 'comment', 'post')),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   is_read BOOLEAN DEFAULT false,
   FOREIGN KEY(user_id) REFERENCES users(id),
