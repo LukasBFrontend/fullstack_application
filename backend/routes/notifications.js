@@ -6,36 +6,53 @@ module.exports = (db) => {
 
   // GET all notifications for the logged in user
   router.get('/', authorize, async (req, res) => {
-    let notifications = await db.all('SELECT * FROM notifications WHERE user_id = ?', [
-      req.session.userId
-    ]);
+    try {
+      let notifications = await db.all('SELECT * FROM notifications WHERE user_id = ?', [
+        req.session.userId
+      ]);
 
-    notifications = await notificationMap(db, notifications);
+      notifications = await notificationMap(db, notifications);
 
-    res.status(200).json(notifications);
+      res.status(200).json(notifications);
+    }
+    catch (err) {
+      console.error('Failed to retrieve notifications:', err);
+      return res.status(500).json({ message: 'Could not retrieve notifications from database'});
+    }
   });
 
   // DELETE all notifications for the logged in user
   router.delete('/', authorize, async (req, res) => {
-    await db.run('DELETE FROM notifications WHERE user_id = ?', [
-      req.session.userId
-    ]);
+    try {
+      await db.run('DELETE FROM notifications WHERE user_id = ?', [
+        req.session.userId
+      ]);
 
-    res.status(200).json({message: `All notifications for user with id: ${req.session.userId} have been deleted`});
+      res.status(200).json({message: `All notifications for user with id: ${req.session.userId} have been deleted`});
+    }
+    catch (err) {
+      console.error('Failed to delete notifications:', err);
+      return res.status(500).json({ message: 'Could not delete notifications from database'});
+    }
   });
 
   return router;
 };
 
 async function notificationMap (db, notifications) {
-  return await Promise.all(notifications.map(async notification => {
-    const relatedUser = await db.get('SELECT * FROM users WHERE id = ?', [
-      notification.related_user_id
-    ]);
+  try {
+    return await Promise.all(notifications.map(async notification => {
+      const relatedUser = await db.get('SELECT * FROM users WHERE id = ?', [
+        notification.related_user_id
+      ]);
 
-    const {id, user_id, type, created_at} = notification;
-    return { id, user_id, type, related_user: {id: relatedUser.id, username: relatedUser.username}, created_at };
-  }));
+      const {id, user_id, type, created_at} = notification;
+      return { id, user_id, type, related_user: {id: relatedUser.id, username: relatedUser.username}, created_at };
+    }));
+  }
+  catch (err) {
+    console.error('Server error while mapping notification:', err);
+  }
 }
 
 // Check if the user is logged in
