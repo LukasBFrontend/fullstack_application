@@ -1,6 +1,72 @@
 #root {
   max-width: 1280px;
+  width: 100%;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
+}
+
+:root {
+  --border-color: rgba(255, 255, 255, 0.87);
+}
+
+#top-nav {
+  border-bottom: 2px solid var(--border-color);
+}
+
+#bottom-nav {
+  border-top: 2px solid var(--border-color);
+}
+
+nav {
+  padding: 1rem;
+}
+
+nav ul{
+  width: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: space-around;
+}
+
+ul {
+  list-style-type: none;
+}
+
+nav li {
+  display: inline;
+}
+
+main {
+  overflow-y: scroll;
+  flex-grow: 1;
+}
+
+/* Phones */
+@media (width > 480px) {
+
+}
+
+/* Tablet */
+
+@media (width > 768px) {
+
+}
+
+/* Desktop small */
+
+@media (width > 992px) {
+
+}
+
+/* Desktop large */
+
+@media (width > 1200px) {
+
 }

@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { AppProvider } from './context/AppContext';
+import { useState, useEffect } from 'react';
+import { AppProvider, useAppContext } from './context/AppContext';
 import Feed from './pages/Feed';
 import Inbox from './pages/Inbox';
 import Post from './pages/Post';
@@ -11,44 +11,56 @@ import {
   Outlet,
   RouterProvider
 } from 'react-router-dom'
-import './App.css'
+import './App.css';
+import axios from 'axios';
 
 function App() {
+  axios.defaults.withCredentials = true;
+
+  const { user, setUser } = useAppContext();
   const router = createHashRouter([
     {
       children: [
         { element: <Feed />, path: '/' },
-        { element: <Profile />, path: '/profile' },
+        { element: <Profile />, path: '/profile/:id' },
         { element: <Inbox />, path: '/inbox' },
-        { element: <Post />, path: '/post'},
-        { element: <Login />, path: '/login'}
+        { element: <Post />, path: '/post/:id'},
+        { element: <Login />, path: '/login'},
+        { element: <Inbox/>, path: '/inbox'},
       ],
       element: (
         <>
-          <nav>
+          <nav id="top-nav">
             <ul>
               <li className="link">
-                <Link to="/">Feed</Link>
+                <Link className="clickable" to="/inbox">Contact</Link>
               </li>
               <li className="link">
-                <Link to="/profile">Profile</Link>
-              </li>
-              <li className="link">
-                <Link to="/inbox">Contact</Link>
-              </li>
-              <li className="link">
-                <Link to="/post">Post</Link>
-              </li>
-              <li className="link">
-                <Link to="/login">Login</Link>
+                {
+                   user ?
+                   <Link className="clickable" to={`/profile/${user.id}`}>{user.username}</Link> :
+                   <Link className="clickable" to="/login">Login</Link>
+                }
               </li>
             </ul>
           </nav>
           <main>
-            <AppProvider>
+
               <Outlet />
-            </AppProvider>
           </main>
+          <nav id="bottom-nav">
+            <ul>
+              <li className="link">
+                <Link className="clickable" to="/">Home</Link>
+              </li>
+              <li className="link">
+                <Link className="clickable" to="/inbox">Messages</Link>
+              </li>
+              <li className="link">
+                <Link className="clickable" to="/post/2">Post</Link>
+              </li>
+            </ul>
+          </nav>
         </>
       )
     }

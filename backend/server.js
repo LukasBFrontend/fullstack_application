@@ -3,17 +3,26 @@ const session = require('express-session');
 const sqlite = require('sqlite');
 const sqlite3 = require('sqlite3');
 const path = require('path');
+const cors = require('cors');
 
 const app = express();
 const PORT = 3000;
 
 app.use(express.json());
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+}));
 
 app.use(session({
   secret: 'yourSecretKey',
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false }
+  cookie: {
+    httpOnly: true,
+    secure: false,
+    sameSite: 'lax'
+  }
 }));
 
 let database;

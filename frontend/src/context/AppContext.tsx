@@ -1,22 +1,27 @@
 import React, { createContext, useContext, useState} from 'react';
 import type { ReactNode } from 'react';
+import type { Post } from '../context/Types'
+import type { User } from '../context/Types';
 
 interface AppContextType {
-  user: string | null;
-  setUser: (user: string | null) => void;
+  user: User | null;
+  setUser: (user: User | null) => void;
   theme: 'light' | 'dark';
   setTheme: (theme: 'light' | 'dark') => void;
   language: string;
   setLanguage: (language: string) => void;
+  posts: Post[] | null;
+  setPosts: (posts: Post[]) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 // 3. Create the provider component
 export const AppProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<string | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [language, setLanguage] = useState<string>('en');
+  const [posts, setPosts] = useState<Post[]>([]);
 
   const value: AppContextType = {
     user,
@@ -25,6 +30,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     setTheme,
     language,
     setLanguage,
+    posts,
+    setPosts,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

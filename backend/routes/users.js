@@ -59,7 +59,7 @@ module.exports = (db) => {
 
       if (user && password == user.password_hash) {
         req.session.userId = user.id;
-        res.status(200).json({ message: `User ${user.username} logged in`, session: req.session });
+        res.status(200).json({ message: `User ${user.username} logged in`, user, session: req.session });
       } else {
         res.status(401).json({ message: 'Incorrect email or password' });
       }

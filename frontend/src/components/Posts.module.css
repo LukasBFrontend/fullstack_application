@@ -1,0 +1,36 @@
+.posts {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: .5rem 0;
+}
+
+.post {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header h3 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-grow: 1;
+  text-align: left;
+  line-height: 1.2;
+}
+
+.icons {
+  width: 130px;
+  flex-shrink: 0;
+}
+
+.date {
+  text-align: left;
+}
