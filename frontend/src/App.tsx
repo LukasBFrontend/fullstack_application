@@ -43,10 +43,10 @@ function Layout() {
             <Link className="clickable" to="/">Home</Link>
           </li>
           <li className="link">
-            <Link className="clickable" to="/inbox">Messages</Link>
+            <Link className="clickable" to="/createPost"><b>+</b></Link>
           </li>
           <li className="link">
-            <Link className="clickable" to="/createPost"><b>+</b></Link>
+            <Link className="clickable" to="/inbox">🗨️</Link>
           </li>
         </ul>
       </nav>
