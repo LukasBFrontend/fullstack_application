@@ -37,6 +37,11 @@ function Profile() {
     if (id) getUserPosts(id);
   }, []);
 
+  useEffect(() => {
+    if (id) getUser(id);
+    if (id) getUserPosts(id);
+  }, [id]);
+
   return (
     <div className={styles.body}>
       <div className={styles.user}>

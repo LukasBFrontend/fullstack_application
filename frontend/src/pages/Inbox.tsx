@@ -2,6 +2,7 @@ import { useState, useEffect} from 'react'
 import { useAppContext } from '../context/AppContext'
 import { Link } from 'react-router-dom';
 import type { User, Author, Message } from '../context/Types'
+import styles from './/Inbox.module.css'
 import axios from 'axios';
 
 function Inbox() {
@@ -27,7 +28,6 @@ async function getMessages(){
 function mapThreads() {
   if (user)
   {
-    console.log('Mapping threads');
     for (let i = 0; i < messages.length; i++) {
       const otherUser: Author = messages[i].recipient.id == user.id ? messages[i].sender : messages[i].recipient;
       if (threads.find(thread => (
@@ -50,38 +50,19 @@ useEffect(() => {
   }
 }, [messages]);
   return (
-    <div>
-    {/* {
-      messages ?
-      messages.map(message => (
-        <div>
-          <h3>
-            sender: {message.sender.username}
-          </h3>
-          <h3>
-            recipient: {message.recipient.username}
-          </h3>
-          <p>
-            {message.text}
-          </p>
-        </div>
-      )):
-      <p>
-        nothing
-      </p>
-    } */}
+    <div className='body'>
     {
       threads.map(thread => (
-        <div key={thread.otherUser.id}>
-          <div>
-            <h3>
+        <div className={styles.messageThread} key={thread.otherUser.id}>
+          <Link to={`/profile/${thread.otherUser.id}`} className={styles.messageHeader}>
+            <span className={styles.username}>
               {thread.otherUser.username}
-            </h3>
-            <p>{thread.latestMessage.created_at}</p>
-          </div>
-          <p>
-            {thread.latestMessage.text}
-          </p>
+            </span>
+            <span><i>{thread.latestMessage.created_at}</i></span>
+          </Link>
+          <Link to={`/messages/${thread.otherUser.id}`}>
+            <p className={styles.message}>{thread.latestMessage.text}</p>
+          </Link>
         </div>
       ))
     }

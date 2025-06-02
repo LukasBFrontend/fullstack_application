@@ -11,8 +11,19 @@
   text-align: center;
 }
 
+.body{
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  gap: .5rem;
+}
+
 :root {
   --border-color: rgba(255, 255, 255, 0.87);
+}
+
+#top-nav, #bottom-nav{
+
 }
 
 #top-nav {

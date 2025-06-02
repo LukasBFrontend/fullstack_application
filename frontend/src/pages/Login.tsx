@@ -1,13 +1,22 @@
 import { useAppContext } from '../context/AppContext'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './Login.module.css'
 import axios from 'axios';
 import type { User } from '../context/Types'
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
   const { user, setUser } = useAppContext();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(user) {
+      window.sessionStorage.setItem("user", JSON.stringify(user));
+      navigate('/');
+    }
+  }, [user]);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -27,8 +36,6 @@ function Login() {
         }
       }
     );
-
-      console.log(response.data.user);
       setUser(response.data.user);
 
     } catch (error) {

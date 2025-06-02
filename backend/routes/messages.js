@@ -56,8 +56,8 @@ module.exports = (db) => {
       ]);
 
       await db.run('INSERT INTO notifications (user_id, related_user_id, type) VALUES (?, ?, ?)', [
-          req.session.userId,
           req.params.user_id,
+          req.session.userId,
           'message'
       ]);
 

@@ -1,0 +1,55 @@
+.container{
+/*   display: flex;
+  align-items: center;
+  justify-content: right;
+  width: fit-content; */
+  position: relative;
+}
+
+.icon{
+  font-size: 1.3rem;
+  position: relative;
+  z-index: 2;
+}
+
+.number{
+  position: absolute;
+  top: -.8rem;
+  right: -.2rem;
+  z-index: 2;
+}
+
+.overlay{
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(17, 17, 17, .7);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 70px;
+}
+
+.overlay ul{
+  width: 250px;
+  border-radius: .5rem 0rem .5rem .5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: .5rem;
+  padding: 1rem 1rem;
+
+  background: rgb(41, 41, 41);
+
+}
+
+.notification{
+  background: rgb(41, 41, 41);
+  color: white;
+  text-align: left;
+  padding: .5rem;
+  border: 2px solid var(--border-color);
+}

@@ -36,6 +36,20 @@ module.exports = (db) => {
     }
   });
 
+    router.delete('/:id', authorize, async (req, res) => {
+    try {
+      await db.run('DELETE FROM notifications WHERE id = ?', [
+        req.params.id
+      ]);
+
+      res.status(200).json({message: `Notification with id: ${req.session.userId} has been deleted`});
+    }
+    catch (err) {
+      console.error('Failed to delete notifications:', err);
+      return res.status(500).json({ message: 'Could not delete notifications from database'});
+    }
+  });
+
   return router;
 };
 

@@ -1,0 +1,58 @@
+form{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.inputWrapper input{
+  padding-bottom: 2rem;
+}
+
+.inputWrapper textarea{
+
+}
+
+.textareaWrapper:has(> .textarea:focus){
+  outline: auto;
+}
+
+.textareaWrapper {
+  position: relative;
+  padding-top: .5rem;
+  padding: .5rem 0rem 2rem .5rem;
+  background: rgb(61, 61, 61);
+}
+
+.textarea{
+  resize: none;
+  font-size: 1rem;
+  font: inherit;
+  text-align: left;
+  overflow-y: auto;
+  height: 180px;
+  outline: none;
+}
+
+.textarea:empty::before {
+  content: attr(data-placeholder);
+  color: #777;
+  pointer-events: none;
+}
+
+label{
+  margin-bottom: .5rem;
+}
+
+.inputWrapper{
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.characterCounter{
+  position: absolute;
+  bottom: 7px;
+  right: 10px;
+  font-size: 1rem;
+  color: gray;
+}

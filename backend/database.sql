@@ -106,10 +106,28 @@ INSERT INTO messages (sender_id, recipient_id, text) VALUES
 (2, 1, 'Haha, yeah buddy!'),
 (3, 2, 'Loved your last post!');
 
+INSERT INTO messages (sender_id, recipient_id, text) VALUES
+(4, 1, 'Max out today?'),
+(1, 4, 'Always. You in?'),
+(2, 3, 'Vue has a gentler learning curve. Thoughts?'),
+(3, 2, 'True, but I like React’s ecosystem.'),
+(4, 2, 'Frontend debates again?'),
+(2, 4, 'You know us.'),
+(1, 3, 'Keep posting! Great to see new folks here.');
+
 INSERT INTO notifications (user_id, related_user_id, type) VALUES
 (2, 1, 'message'),
 (1, 3, 'comment'),
 (3, 2, 'like');
+
+INSERT INTO notifications (user_id, related_user_id, type) VALUES
+(3, 1, 'message'),
+(2, 4, 'comment'),
+(1, 2, 'like'),
+(4, 3, 'message'),
+(1, 3, 'like'),
+(2, 3, 'message');
+
 
 INSERT INTO friendships (user_id, friend_id, status) VALUES
 (1, 2, 'accepted'),
@@ -121,13 +139,39 @@ INSERT INTO comments (user_id, post_id, text) VALUES
 (3, 2, 'I prefer Vue, but good points.'),
 (4, 3, 'Welcome to the platform!');
 
+INSERT INTO comments (user_id, post_id, text) VALUES
+(1, 2, 'I like how you explained React’s pros.'),
+(2, 3, 'Nice intro post, welcome!'),
+(3, 1, 'Legs are brutal but necessary.'),
+(4, 1, 'I needed this motivation.'),
+(3, 3, 'Excited to see your next post.'),
+(2, 1, 'Also, don’t skip calves! 😄');
+
 INSERT INTO likes (user_id, post_id) VALUES
 (2, 1),
 (3, 1),
 (3, 2),
 (4, 3);
 
+INSERT INTO likes (user_id, post_id) VALUES
+(1, 2),
+(4, 1),
+(1, 3),
+(2, 2),
+(4, 2),
+(3, 3);
+
+
 INSERT INTO messagereads (user_id, message_id) VALUES
 (2, 1),
 (1, 2),
 (2, 3);
+
+INSERT INTO messagereads (user_id, message_id) VALUES
+(1, 4),
+(4, 5),
+(2, 6),
+(3, 7),
+(2, 8),
+(4, 9),
+(1, 10);

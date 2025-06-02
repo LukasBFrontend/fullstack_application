@@ -61,8 +61,8 @@ module.exports = (db) => {
       for (let i = 0; i < friendships.length; i++) {
         const friendId = req.session.userId == friendships[i].user_id ? friendships[i].friend_id : friendships[i].user_id;
         await db.run('INSERT INTO notifications (user_id, related_user_id, type) VALUES (?, ?, ?)', [
-          req.session.userId,
           friendId,
+          req.session.userId,
           'post'
         ]);
       }

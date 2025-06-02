@@ -43,5 +43,15 @@ export interface Message {
   recipient: Author;
   text: string;
   created_at: string;
-  read: boolean
+  read: boolean;
+}
+
+export type NotificationType = 'comment' | 'message' | 'post' | 'like';
+
+export interface Notification {
+  id: string;
+  user_id: string;
+  type: NotificationType;
+  related_user: Author;
+  created_at: string;
 }
