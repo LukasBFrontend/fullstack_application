@@ -10,7 +10,7 @@ function CreatePost() {
   const [text, setText] = useState<String>("");
   const [postId, setPostId] = useState<String | null>(null);
   const maxTitleLength = 50;
-  const maxBodyLength = 500;
+  const maxBodyLength = 300;
 
   const navigate = useNavigate();
 
@@ -52,13 +52,13 @@ function CreatePost() {
       </h2>
       <form onSubmit={handleSubmit}>
         <div className={styles.inputWrapper}>
-          <label htmlFor="titleText">Topic</label>
-          <input name="titleText" onChange={e => setTitle(e.target.value)} type="text" maxLength={maxTitleLength} placeholder='A quick summary of your post...'required/>
+          <label htmlFor='titleText'>Topic</label>
+          <input id='titleText' onChange={e => setTitle(e.target.value)} type="text" maxLength={maxTitleLength} placeholder='A quick summary of your post...'required/>
           <span className={styles.characterCounter}>{title.length} / {maxTitleLength}</span>
         </div>
         <div className={styles.inputWrapper}>
           <label htmlFor='bodyText'>Text</label>
-          <div className={styles.textareaWrapper}>
+          <div id='bodyText' className={styles.textareaWrapper}>
             <div
     className={styles.textarea}
     contentEditable

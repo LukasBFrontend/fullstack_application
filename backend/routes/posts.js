@@ -102,8 +102,8 @@ module.exports = (db) => {
       const post = await db.get('SELECT * FROM posts WHERE id = ?', [req.params.post_id]);
 
       await db.run('INSERT INTO notifications (user_id, related_user_id, type) VALUES (?, ?, ?)', [
-        req.session.userId,
         post.author_id,
+        req.session.userId,
         'like'
       ]);
 

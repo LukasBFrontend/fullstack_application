@@ -55,3 +55,11 @@ export interface Notification {
   related_user: Author;
   created_at: string;
 }
+
+export type FriendshipStatus = 'pending' | 'accepted' | 'rejected';
+
+export interface Friendship {
+  user_id: string;
+  friend_id: string;
+  status: FriendshipStatus;
+}

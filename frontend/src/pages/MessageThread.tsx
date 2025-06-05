@@ -10,12 +10,43 @@ function MessageThread() {
   const { user } = useAppContext();
   const [messages, setMessages] = useState<Message[]>([]);
   const [otherUser, setOtherUser] = useState<Author | null>(null);
+  const [messageText, setMessageText] = useState<string>('');
+
+  async function createMessageReads(){
+    try {
+      const url: string = `http://localhost:3000/api/messages/${id}/read`
+      await axios.post(url);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function postMessage(){
+    try {
+      const url: string = `http://localhost:3000/api/messages/${id}`
+      await axios.post(url, JSON.stringify({text: messageText}), {
+        headers: {
+          'Content-Type' : 'application/json'
+        }
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function handleSubmit(){
+    await postMessage();
+    getMessages();
+    setMessageText("");
+  }
 
   useEffect(() => {
-    id ? getMessages(id) : console.error('Missing id parameter');
+    if (!id) return console.error('Missing id parameter');
+    getMessages();
+    createMessageReads();
   }, []);
 
-  async function getMessages(id: string){
+  async function getMessages(){
     try {
       if (!user) throw new Error('Must log in to get messages');
 
@@ -45,15 +76,14 @@ function MessageThread() {
           <em>This is the start of your message thread with {otherUser?.username}</em>
           <div className={styles.messages}>
           {
-            messages.map(message => {
+            messages.map((message, index) => {
               const isSender: boolean = message.sender.id == user.id;
+              const showUsername = index === 0 || message.sender.id !== messages[index - 1].sender.id
 
               return (
                 <div className={`${isSender ? styles.sender : styles.recipient}`} key={message.id}>
                   <div className={styles.message}>
-                    <h4>
-                      { message.sender.username }
-                    </h4>
+                    {showUsername && <h4>{message.sender.username}</h4>}
                     <p>
                       { message.text }
                     </p>
@@ -66,6 +96,10 @@ function MessageThread() {
             })
           }
           </div>
+          <form className={styles.messageForm} onSubmit={handleSubmit}>
+            <input id='messageText' onChange={(e) => setMessageText(e.target.value)} value={messageText} className={styles.textInput} type="text" placeholder='Have something to say?' required/>
+            <input id='messageSubmit' type="submit" className={`clickable ${styles.submitButton}`} value="Send"/>
+          </form>
         </div> :
         <h2> Login to view messages </h2>
       }

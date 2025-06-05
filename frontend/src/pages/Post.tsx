@@ -120,8 +120,8 @@ function Post() {
       </div>
 
       <form className={styles.commentForm} onSubmit={handleSubmit}>
-          <input onChange={(e) => setCommentText(e.target.value)} value={commentText} className={styles.textInput} type="text" placeholder='Have something to say?' required/>
-          <input type="submit" className={`clickable ${styles.submitButton}`} value="Send"/>
+          <input id='commentText' onChange={(e) => setCommentText(e.target.value)} value={commentText} className={styles.textInput} type="text" placeholder='Have something to say?' required/>
+          <input id='commentSubmit' type='submit' className={`clickable ${styles.submitButton}`} value="Send"/>
       </form>
     </div>
   )

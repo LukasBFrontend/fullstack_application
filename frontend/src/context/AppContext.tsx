@@ -6,6 +6,8 @@ import type { User } from '../context/Types';
 interface AppContextType {
   user: User | null;
   setUser: (user: User | null) => void;
+  friends: User[] | null;
+  setFriends: (friends: User[] | null) => void;
   theme: 'light' | 'dark';
   setTheme: (theme: 'light' | 'dark') => void;
   language: string;
@@ -19,6 +21,7 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 // 3. Create the provider component
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [friends, setFriends] = useState<User[] | null>(null);
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [language, setLanguage] = useState<string>('en');
   const [posts, setPosts] = useState<Post[]>([]);
@@ -26,6 +29,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const value: AppContextType = {
     user,
     setUser,
+    friends,
+    setFriends,
     theme,
     setTheme,
     language,

@@ -70,7 +70,7 @@ module.exports = (db) => {
   });
 
   // Create message reads for all messages from user with ID to logged in user
-  router.get('/:user_id/read', validate, async (req, res) => {
+  router.post('/:user_id/read', validate, async (req, res) => {
     try {
       const recievedMessages = await db.all('SELECT * FROM messages WHERE recipient_id = ? AND sender_id = ?', [
         req.session.userId,
