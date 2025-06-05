@@ -136,14 +136,6 @@ function Profile() {
     }
   }
 
-/*   useEffect(() => {
-    cacheUser();
-  }, []);
-
-  useEffect(() => {
-    cacheUser();
-  }, [id]); */
-
   useEffect(() => {
     if (loggedInUser) cacheUser();
   }, [loggedInUser, id]);
