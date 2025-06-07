@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useAppContext } from '../context/AppContext';
-import styles from './MessageThread.module.css';
-import type { Message, Author } from '../context/Types';
 import { Link, useParams } from 'react-router-dom';
+import { faArrowTurnUp } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import type { Message, Author } from '../context/Types';
 import axios from 'axios';
+import styles from './MessageThread.module.css';
 
 function MessageThread() {
   const { id } = useParams<string>();
@@ -65,15 +67,20 @@ function MessageThread() {
   }
 
   return (
-    <>
+    <div className={styles.wrapper}>
       {
         user ?
-        <div className={styles.body}>
+        <div className={`body`}>
+          <div className={styles.headerWrapper}>
+
           <div className={styles.header}>
-            <Link to={`/inbox`} className='clickable'>Back</Link>
-            <h2>{ otherUser?.username }</h2>
+            <Link className={`clickable backButton`} to="/inbox"><FontAwesomeIcon icon={faArrowTurnUp}/></Link>
+            <Link to={`/profile/${otherUser?.id}`}>
+              <h3>{ otherUser?.username }</h3>
+            </Link>
           </div>
-          <em>This is the start of your message thread with {otherUser?.username}</em>
+          </div>
+          <em className={styles.info}>This is the start of your message thread with {otherUser?.username}</em>
           <div className={styles.messages}>
           {
             messages.map((message, index) => {
@@ -96,14 +103,16 @@ function MessageThread() {
             })
           }
           </div>
-          <form className={styles.messageForm} onSubmit={handleSubmit}>
-            <input id='messageText' onChange={(e) => setMessageText(e.target.value)} value={messageText} className={styles.textInput} type="text" placeholder='Have something to say?' required/>
-            <input id='messageSubmit' type="submit" className={`clickable ${styles.submitButton}`} value="Send"/>
-          </form>
+          <div className={styles.formWrapper}>
+            <form className={styles.messageForm} onSubmit={handleSubmit}>
+              <input id='messageText' onChange={(e) => setMessageText(e.target.value)} value={messageText} className={styles.textInput} type="text" placeholder='Have something to say?' required/>
+              <input id='messageSubmit' type="submit" className={`clickable ${styles.submitButton}`} value="Send"/>
+            </form>
+          </div>
         </div> :
         <h2> Login to view messages </h2>
       }
-    </>
+    </div>
   )
 }
 

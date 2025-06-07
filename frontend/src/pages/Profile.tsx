@@ -1,11 +1,11 @@
-import axios from 'axios'
 import { useEffect, useState } from 'react';
-import type { User, Post, Friendship, FriendshipStatus } from '../context/Types';
 import { useAppContext } from '../context/AppContext'
-import { Link, useParams } from 'react-router-dom';
-import Posts from '../components/posts';
+import { useParams } from 'react-router-dom';
+import type { User, Post, Friendship } from '../context/Types';
+import Posts from '../components/Posts';
 import styles from './Profile.module.css';
 import Friends from '../components/Friends';
+import axios from 'axios'
 
 function Profile() {
   const [user, setUser] = useState<User | null>(null);
@@ -13,7 +13,7 @@ function Profile() {
   const [friendship, setFriendship] = useState<Friendship | null>(null);
   let loggedInUser = useAppContext().user;
   const { friends, setFriends } = useAppContext();
-  const { posts, setPosts } = useAppContext();
+  const { setPosts } = useAppContext();
   const { id } = useParams<{ id: string }>();
 
   async function getUser() {
@@ -38,7 +38,6 @@ function Profile() {
   }
 
   async function getUserFriendship(){
-    console.log(loggedInUser);
     if (loggedInUser?.id == id) return;
 
     const url: string = `http://localhost:3000/api/users/${id}/friendship`;
@@ -112,28 +111,30 @@ function Profile() {
 
   function mapFriendship(){
     if (!friendship) return <button onClick={() => sendFriendrequest()}>Add friend</button>
+
+    let content;
+
     switch (friendship.status){
       case 'accepted':
-        return <button onClick={() => deleteFriendship()}>Remove friend</button>;
+        content = <button onClick={() => deleteFriendship()}>Remove friend</button>;
         break;
       case 'pending':
-        //if user_id == user.id -> Friend request sent
-        //else -> accept / decline
-
-        return loggedInUser?.id == friendship.user_id ?
-        <div>Friend request sent...</div>:
-        <div>
+        content = loggedInUser?.id == friendship.user_id ?
+        'Friend request sent...':
+        <>
+          Friendrequest
           <button onClick={() => updateFriendship('accepted')}>Accept</button>
           <button onClick={() => updateFriendship('rejected')}>Decline</button>
-        </div>;
+        </>;
         break;
       case 'rejected':
-        //delete friendship
         deleteFriendship();
         break;
       default:
         console.error('Error while mapping friendship');
     }
+
+    return content;
   }
 
   useEffect(() => {
@@ -141,7 +142,7 @@ function Profile() {
   }, [loggedInUser, id]);
 
   return (
-    <div className={styles.body}>
+    <div className={`body`}>
       <div className={styles.user}>
         <h2>{user ? user.username : 'Username'}</h2>
         <div className='clickable' onClick={() => setShowFriends(true)}>Friends: {friends?.length}</div>
@@ -150,13 +151,11 @@ function Profile() {
       {
       showFriends &&
       <div className={styles.overlay} onClick={() => setShowFriends(false)}>
-        <button className={`clickable ${styles.button}`} onClick={() => setShowFriends(false)}>Back</button>
+        <button onClick={() => setShowFriends(false)}>Back</button>
         <Friends></Friends>
       </div>
       }
-      {
-        loggedInUser?.id != id && mapFriendship()
-      }
+      <div className={styles.friendshipStatus}>{loggedInUser?.id != id && mapFriendship()}</div>
       <Posts></Posts>
     </div>
 

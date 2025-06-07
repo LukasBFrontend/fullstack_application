@@ -1,5 +1,13 @@
-import { useState, useEffect } from 'react';
-import { AppProvider, useAppContext } from './context/AppContext';
+import { useEffect } from 'react';
+import { useAppContext } from './context/AppContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHouse, faComment } from '@fortawesome/free-solid-svg-icons';
+import {
+  createHashRouter,
+  Link,
+  Outlet,
+  RouterProvider
+} from 'react-router-dom'
 import Feed from './pages/Feed';
 import Inbox from './pages/Inbox';
 import Post from './pages/Post';
@@ -8,12 +16,6 @@ import Login from './pages/Login';
 import MessageThread from './pages/MessageThread';
 import Notifications from './components/Notifications';
 import CreatePost from './pages/CreatePost';
-import {
-  createHashRouter,
-  Link,
-  Outlet,
-  RouterProvider
-} from 'react-router-dom'
 import './App.css';
 import axios from 'axios';
 
@@ -21,36 +23,36 @@ function Layout() {
   const { user } = useAppContext();
 
   return (
-    <>
+    <div id="wrapper">
       <nav id="top-nav">
-        <ul>
+        <ul className='navList'>
           <li className="link">
             <Link className="clickable" to={user ? `/profile/${user.id}` : '/login'}>
               {user ? user.username : 'Login'}
             </Link>
           </li>
-          <li className="link">
+          <li className="link notifications">
             <Notifications />
+          </li>
+        </ul>
+      </nav>
+      <nav id="bottom-nav">
+        <ul className='navList'>
+          <li className="link">
+            <Link className="clickable home" to="/"><FontAwesomeIcon icon={faHouse}/></Link>
+          </li>
+          <li className="link secondItem">
+            <Link className="clickable createPost" to="/createPost"><b>+</b></Link>
+          </li>
+          <li className="link">
+            <Link className="clickable inbox" to="/inbox"><FontAwesomeIcon className="mirrorX" icon={faComment}/></Link>
           </li>
         </ul>
       </nav>
       <main>
         <Outlet />
       </main>
-      <nav id="bottom-nav">
-        <ul>
-          <li className="link">
-            <Link className="clickable" to="/">Home</Link>
-          </li>
-          <li className="link">
-            <Link className="clickable" to="/createPost"><b>+</b></Link>
-          </li>
-          <li className="link">
-            <Link className="clickable" to="/inbox">🗨️</Link>
-          </li>
-        </ul>
-      </nav>
-    </>
+    </div>
   );
 }
 

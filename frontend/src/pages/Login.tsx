@@ -1,9 +1,8 @@
 import { useAppContext } from '../context/AppContext'
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './Login.module.css'
 import axios from 'axios';
-import type { User } from '../context/Types'
-import { useNavigate } from 'react-router-dom';
 
 function Login() {
   const { user, setUser } = useAppContext();

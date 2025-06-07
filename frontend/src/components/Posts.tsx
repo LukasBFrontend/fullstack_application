@@ -1,10 +1,11 @@
-import React from 'react'
+import { useAppContext } from '../context/AppContext';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart, faComment } from '@fortawesome/free-solid-svg-icons';
 import styles from './Posts.module.css'
-import { useAppContext } from '../context/AppContext'
-import { Link } from 'react-router-dom'
 
 function Posts() {
-  const { posts, setPosts } = useAppContext();
+  const { posts } = useAppContext();
 
   return (
     <div className={styles.posts}>
@@ -14,8 +15,8 @@ function Posts() {
               <div className={styles.header}>
                 <h3>{post.title_text}</h3>
                 <div className={styles.icons}>
-                  <span>{post.likes} ❤️</span>
-                  <span>{post.comments.length} 🗨️</span>
+                  <span>{post.likes} <FontAwesomeIcon style={{color: 'rgb(202, 59, 59)'}} icon={faHeart}/> </span>
+                  <span>{post.comments.length} <FontAwesomeIcon icon={faComment}/></span>
                 </div>
               </div>
               <p className={styles.date}>{post.created_at}</p>

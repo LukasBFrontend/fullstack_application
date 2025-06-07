@@ -8,12 +8,17 @@
   color: rgba(255, 255, 255, 0.87);
   --border-color: rgba(255, 255, 255, 0.87);
   --dark-grey: #242424;
+  --nav-height: 84px;
   background-color: #242424;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+body{
+  background: rgb(19, 19, 19);
 }
 
 *{
@@ -31,7 +36,7 @@ p {
   text-align: left;
 }
 
-.clickable {
+.clickable, button{
   display: flex;
   justify-content: center;
   align-items: center;
@@ -56,9 +61,17 @@ h1 {
   line-height: 1.1;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
+button {
+  padding-right: .5rem;
+  padding-left: .5rem;
+}
+
+.mirrorX{
+  transform: scale(-1, 1);
+}
+
+.backButton{
+  transform: rotate(-90deg);
+  font-size: 1.25rem;
+  padding: 0 1rem;
 }

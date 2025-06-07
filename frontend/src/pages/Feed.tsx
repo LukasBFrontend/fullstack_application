@@ -1,17 +1,11 @@
-//import { useAppContext } from '../context/AppContext'
-import { Link } from 'react-router-dom'
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import styles from './Feed.module.css'
-import type { Post } from '../context/Types';
-import Posts from '../components/posts';
+import { useEffect } from 'react';
 import { useAppContext } from '../context/AppContext'
+import type { Post } from '../context/Types';
+import Posts from '../components/Posts';
+import axios from 'axios';
 
 function Feed() {
-  //const { user }= useAppContext()
-
-  /* const [posts, setPosts] = useState<Post[]>([]); */
-  const {posts, setPosts}= useAppContext();
+  const { setPosts }= useAppContext();
 
   useEffect(() => {
     getPosts();
@@ -29,7 +23,7 @@ function Feed() {
   }
 
   return (
-    <div className={styles.body}>
+    <div className={`body`}>
       <h2>Posts</h2>
       <Posts></Posts>
     </div>

@@ -2,10 +2,10 @@
   --border-color: rgba(255, 255, 255, 0.87);
 }
 
-.body {
-  padding: .5rem 1rem;
+.friendshipStatus{
+  margin: 0 auto;
   display: flex;
-  flex-direction: column;
+  align-items: center;
   gap: 1rem;
 }
 
@@ -21,7 +21,7 @@
 
 .overlay{
   position: fixed;
-  z-index: 2;
+  z-index: 4;
   top: 0;
   right: 0;
   width: 100%;
@@ -33,4 +33,14 @@
 
   padding: 0 2rem;
   padding-top: 82px;
+}
+
+@media (min-width: 1200px){
+  .overlay{
+    width: 1200px;
+    height: 846px;
+    padding: 200px 200px;
+    top: calc((100dvh - 846px) / 2);
+    right: calc((100dvw - 1200px) /2)
+  }
 }

@@ -8,10 +8,6 @@ form{
   padding-bottom: 2rem;
 }
 
-.inputWrapper textarea{
-
-}
-
 .textareaWrapper:has(> .textarea:focus){
   outline: auto;
 }

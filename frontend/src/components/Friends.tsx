@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useAppContext } from '../context/AppContext';
 import { Link } from 'react-router-dom';
 import styles from './Friends.module.css';

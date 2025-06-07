@@ -1,7 +1,7 @@
 import { useState, useEffect} from 'react'
 import { useAppContext } from '../context/AppContext'
 import { Link } from 'react-router-dom';
-import type { User, Author, Message } from '../context/Types'
+import type { Author, Message } from '../context/Types'
 import styles from './/Inbox.module.css'
 import axios from 'axios';
 

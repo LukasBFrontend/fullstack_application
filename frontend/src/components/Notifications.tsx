@@ -1,9 +1,12 @@
-import { useState, useEffect, JSX } from 'react';
-import axios from 'axios';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppContext } from '../context/AppContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGlobe } from '@fortawesome/free-solid-svg-icons';
+import type { Notification } from '../context/Types';
+import type { JSX } from 'react';
 import styles from './Notifications.module.css'
-import type { NotificationType, Notification } from '../context/Types';
+import axios from 'axios';
 
 function Notifications() {
   const { user } = useAppContext();
@@ -68,19 +71,21 @@ function Notifications() {
         <div onClick={() => setShowOverlay(false)} className={styles.overlay}>
           <ul>
             {
+              notifications.length > 0 ?
               notifications.map(notification => (
                 <li className={styles.notification} key={notification.id}>
                   {
                     renderNotification(notification)
                   }
                 </li>
-              ))
+              )):
+              'No notifications yet'
             }
           </ul>
         </div>
       }
-      <div className={styles.icon} onClick={() => setShowOverlay(!showOverlay && notifications.length > 0)}>🌐</div>
-      <div className={styles.number}>{notifications.length}</div>
+      <div className={styles.icon} onClick={() => setShowOverlay(!showOverlay)}><FontAwesomeIcon icon={faGlobe}/> </div>
+      <div className={styles.number}>{notifications.length > 0 && notifications.length}</div>
     </div>
   )
 }
